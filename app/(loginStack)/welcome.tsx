@@ -1,8 +1,8 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
-import ViewContainer from "@/components/ViewContainer";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import Btn from "@/components/Btn";
+import ViewContainer from "@/shared/components/ViewContainer";
+import ParallaxScrollView from "@/shared/components/ParallaxScrollView";
+import Btn from "@/shared/components/Btn";
 import { useRouter } from "expo-router";
 
 const welcome = () => {

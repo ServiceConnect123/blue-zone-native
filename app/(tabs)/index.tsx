@@ -1,5 +1,5 @@
-import Btn from '@/components/Btn';
-import { useAuth } from '@/context/Auth';
+import Btn from '@/shared/components/Btn';
+import { useAuth } from '@/shared/context/Auth';
 import { useRef } from 'react';
 
 import { Text, View } from 'react-native';

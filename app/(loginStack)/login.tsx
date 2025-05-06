@@ -1,17 +1,28 @@
-import { View, Text, ScrollView, TextInput, Switch } from "react-native";
+import { View, Text, ScrollView, TextInput, Switch, Image } from "react-native";
 import React, { useState } from "react";
-import ViewContainer from "@/components/ViewContainer";
-import Header from "@/components/Header";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import ViewContainer from "@/shared/components/ViewContainer";
+import Header from "@/shared/components/Header";
+import { FontAwesome } from "@expo/vector-icons";
 import { Controller, useForm } from "react-hook-form";
-import Btn from "@/components/Btn";
+import Btn from "@/shared/components/Btn";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
-import { useAuth } from "@/context/Auth";
+import { useAuth } from "@/shared/context/Auth";
+import useLoginServices from "@/shared/hooks/loginServices";
+import ParallaxScrollView from "@/shared/components/ParallaxScrollView";
 
 const login = () => {
   const { login } = useAuth();
   const router = useRouter();
+  const {
+    getFormValues,
+    logFormSubmission,
+    retrieveUserFromStorage,
+    handleNoUserRegistered,
+    areCredentialsValid,
+    handleInvalidCredentials,
+    handleSuccessfulLogin,
+  } = useLoginServices();
   const {
     control,
     handleSubmit,
@@ -40,32 +51,31 @@ const login = () => {
   };
 
   const onSubmit = async () => {
-    if (!validForm()) return;
-    console.log(getValues());
-    const user = (await AsyncStorage.getItem("user")) || "";
-    if (user === "") {
-      console.log("No hay usuario registrado");
+    if (!validForm()) {
       return;
     }
-    const userData = JSON.parse(user as string);
-    console.log(userData);
-    if (
-      userData.email !== getValues().email ||
-      userData.password !== getValues().password
-    ) {
-      console.log("Credenciales incorrectas");
+
+    const formValues = getFormValues(getValues());
+    logFormSubmission(formValues);
+
+    const user = await retrieveUserFromStorage(AsyncStorage);
+    if (!user) {
+      handleNoUserRegistered();
       return;
-    } else {
-      console.log("Credenciales correctas");
-      login();
-      router.replace("/(tabs)");
     }
+
+    if (!areCredentialsValid(user, formValues)) {
+      handleInvalidCredentials();
+      return;
+    }
+
+    await handleSuccessfulLogin(login, router);
   };
 
   return (
     <ViewContainer bottomProp={true}>
       <Header text="Iniciar sesión" />
-      <View className="flex-1 w-full h-full p-2 gap-10">
+      <ParallaxScrollView headerImage={<Image source={require("@/assets/images/logotipo.jpeg")} />} headerBackgroundColor={{ dark: "#000", light: "#fff" }}>
         <ScrollView className="w-full h-full">
           <Text className="text-2xl font-bold text-center mt-2 mb-5">
             Parqueo rápido y seguro
@@ -165,7 +175,7 @@ const login = () => {
             />
           </View>
         </ScrollView>
-      </View>
+      </ParallaxScrollView>
     </ViewContainer>
   );
 };

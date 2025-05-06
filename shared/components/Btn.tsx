@@ -1,6 +1,6 @@
 import { View, Text, Pressable, PressableProps } from "react-native";
 import React from "react";
-import { BtnProps } from "@/interfaces/btn";
+import { BtnProps } from "@/shared/interfaces/btn";
 import { FontAwesome } from "@expo/vector-icons";
 
 const Btn = ({

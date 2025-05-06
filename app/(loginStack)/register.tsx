@@ -1,11 +1,11 @@
 import { View, Text, ScrollView, TextInput } from "react-native";
 import React from "react";
-import ViewContainer from "@/components/ViewContainer";
-import Header from "@/components/Header";
-import Btn from "@/components/Btn";
+import ViewContainer from "@/shared/components/ViewContainer";
+import Header from "@/shared/components/Header";
+import Btn from "@/shared/components/Btn";
 import { FontAwesome } from "@expo/vector-icons";
 import { Controller, useForm, useWatch } from "react-hook-form";
-import SelectDropDown from "@/components/SelectDropDown";
+import SelectDropDown from "@/shared/components/SelectDropDown";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
