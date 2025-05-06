@@ -5,11 +5,17 @@ import Header from "@/components/Header";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Controller, useForm } from "react-hook-form";
 import Btn from "@/components/Btn";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
+import { useAuth } from "@/context/Auth";
 
 const login = () => {
+  const { login } = useAuth();
+  const router = useRouter();
   const {
     control,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -23,9 +29,30 @@ const login = () => {
   const inputStyleForm =
     "border border-gray-400 rounded-2xl p-3 w-full h-16 text-xl";
 
-  const onSubmit = (data: any) => {
-    console.log("Datos del formulario:", data);
-    // Lógica de autenticación aquí
+  const validForm = ()=>{
+    const data = getValues();
+    const validData = Object.values(data).every((value) => value !== "");
+    return validData;
+  }  
+
+  const onSubmit = async () => {
+    if (!validForm()) return;
+    console.log(getValues());
+    const user = (await AsyncStorage.getItem("user")) || "";
+    if(user === ""){
+      console.log("No hay usuario registrado");
+      return;
+    }
+    const userData = JSON.parse(user as string);
+    console.log(userData);
+    if (userData.email !== getValues().email || userData.password !== getValues().password) {
+      console.log("Credenciales incorrectas");
+      return;
+    } else {
+      console.log("Credenciales correctas");
+      login();
+      router.replace('/(tabs)');
+    }
   };
 
   return (
@@ -98,7 +125,9 @@ const login = () => {
                     onValueChange={onChange}
                     className="w-12 h-16 mr-5"
                   />
-                  <Text className="text-lg text-slate-700">Recordar contraseña</Text>
+                  <Text className="text-lg text-slate-700">
+                    Recordar contraseña
+                  </Text>
                   {errors.savePassword && (
                     <Text className="text-red-500">
                       {errors.savePassword.message}

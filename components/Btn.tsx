@@ -24,6 +24,7 @@ const Btn = ({
         <Pressable
           style={{
             backgroundColor: "#edd0a6",
+            opacity: disabled ? 0.5 : 1,
           }}
           className={baseStyle.className}
           onPress={onPress}

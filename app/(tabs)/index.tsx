@@ -1,12 +1,23 @@
+import { useRef } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Text, View } from 'react-native';
+import WebView from 'react-native-webview';
 
 export default function TabOneScreen() {
+  const webviewRef = useRef(null);
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} />
+      {/*<WebView
+        ref={webviewRef}
+        source={require("../modules/reactHome/index.html")}
+        className='w-full h-full'
+        javaScriptEnabled={true}
+        domStorageEnabled={true}
+        originWhitelist={["*"]}
+        scalesPageToFit={true}
+        mixedContentMode="compatibility"
+      />*/}
     </View>
   );
 }
@@ -16,14 +27,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
   },
 });
