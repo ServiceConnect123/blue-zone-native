@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, TextInput, Switch } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import ViewContainer from "@/components/ViewContainer";
 import Header from "@/components/Header";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
@@ -25,33 +25,40 @@ const login = () => {
     },
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const labelStyleForm = "text-lg text-start w-full font-bold";
   const inputStyleForm =
     "border border-gray-400 rounded-2xl p-3 w-full h-16 text-xl";
+  const iconStyleForm = "absolute right-3 top-1/2 -translate-y-1/2";
+  const errorStyle = "text-red-500 text-start w-full";
 
-  const validForm = ()=>{
+  const validForm = () => {
     const data = getValues();
     const validData = Object.values(data).every((value) => value !== "");
     return validData;
-  }  
+  };
 
   const onSubmit = async () => {
     if (!validForm()) return;
     console.log(getValues());
     const user = (await AsyncStorage.getItem("user")) || "";
-    if(user === ""){
+    if (user === "") {
       console.log("No hay usuario registrado");
       return;
     }
     const userData = JSON.parse(user as string);
     console.log(userData);
-    if (userData.email !== getValues().email || userData.password !== getValues().password) {
+    if (
+      userData.email !== getValues().email ||
+      userData.password !== getValues().password
+    ) {
       console.log("Credenciales incorrectas");
       return;
     } else {
       console.log("Credenciales correctas");
       login();
-      router.replace('/(tabs)');
+      router.replace("/(tabs)");
     }
   };
 
@@ -87,12 +94,14 @@ const login = () => {
                     value={value}
                   />
                   {errors.email && (
-                    <Text className="text-red-500">{errors.email.message}</Text>
+                    <Text className={errorStyle}>{errors.email.message}</Text>
                   )}
                 </View>
               )}
               name="email"
             />
+
+            {/* Contraseña */}
             <Controller
               control={control}
               rules={{ required: "Contraseña obligatoria" }}
@@ -101,14 +110,24 @@ const login = () => {
                   <Text className={labelStyleForm}>Contraseña</Text>
                   <TextInput
                     placeholder="Contraseña"
-                    secureTextEntry
+                    secureTextEntry={!showPassword}
                     className={inputStyleForm}
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
                   />
+                  <View className={iconStyleForm}>
+                    <FontAwesome
+                      name={showPassword ? "eye" : "eye-slash"}
+                      size={24}
+                      color="black"
+                      onPress={() => {
+                        setShowPassword(!showPassword);
+                      }}
+                    />
+                  </View>
                   {errors.password && (
-                    <Text className="text-red-500">
+                    <Text className={errorStyle}>
                       {errors.password.message}
                     </Text>
                   )}
@@ -116,6 +135,8 @@ const login = () => {
               )}
               name="password"
             />
+
+            {/* Recordar contraseña */}
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (

@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -15,11 +16,21 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  useEffect(()=>{
+    AsyncStorage.getItem('auth').then((value) => {
+      if(value === 'true'){
+        setIsAuthenticated(true);
+      }
+    })
+  },[])
+
   const login = () => {
+    AsyncStorage.setItem('auth', 'true');
     setIsAuthenticated(true);
   };
 
   const logout = () => {
+    AsyncStorage.setItem('auth', 'false');
     setIsAuthenticated(false);
   };
 
