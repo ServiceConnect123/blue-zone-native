@@ -3,13 +3,17 @@ import React from "react";
 import ViewContainer from "@/components/ViewContainer";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import Btn from "@/components/Btn";
+import { useRouter } from "expo-router";
 
 const welcome = () => {
+  const router = useRouter();
   return (
     <ViewContainer bottomProp={true}>
       <ParallaxScrollView
         headerImage={
-          <Image className="w-full h-full" source={require("@/assets/images/logotipo.jpeg")} />
+          <View className="w-full h-full">
+            <Image className="w-full h-full" source={require("@/assets/images/logotipo.jpeg")}/>
+          </View>
         }
         headerBackgroundColor={{ dark: "#000", light: "#fff" }}
       >
@@ -18,10 +22,13 @@ const welcome = () => {
             Inicia sesión con tu cuenta para ingresar con tu perfil de usuario
             registrado
           </Text>
-          <View className="p-2 w-full flex gap-5 items-center justify-center">
-            <Btn title="Iniciar sesión" onPress={() => {}} type="login" />
-            <Btn title="Registrarse" onPress={() => {}} type="login" />
-            <Btn title="¿Olvidaste tu contraseña?" onPress={() => {}} type="link" />
+          <View className="p-2 w-full flex gap-5 items-center justify-center mb-64">
+            <Btn title="Iniciar sesión" onPress={() => router.push("/login") } type="login" />
+            <Btn title="Registrarse" onPress={() => router.push("/register")} type="login" />
+            <Text className="text-center text-lg font-bold text-blue-500 my-4">
+             - o inicia sesión con Facebook -
+            </Text>
+            <Btn title="Iniciar sesión con Facebook" onPress={() => {}} type="facebook" />
           </View>
         </View>
       </ParallaxScrollView>

@@ -10,7 +10,7 @@ import Animated, {
 import { View } from 'react-native';
 import { useColorScheme } from 'react-native';
 
-const HEADER_HEIGHT = 250;
+const HEADER_HEIGHT = 270;
 
 type Props = PropsWithChildren<{
   headerImage: ReactElement;
@@ -70,15 +70,16 @@ const styles = StyleSheet.create({
   header: {
     height: HEADER_HEIGHT,
     overflow: 'hidden',
+    backgroundColor: '#dec9a0',
   },
   content: {
     flex: 1,
-    padding: 32,
+    padding: 24,
     height:'100%',
     gap: 16,
     overflow: 'hidden',
-    borderTopLeftRadius: 60,
-    borderTopRightRadius: 60,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
     backgroundColor: '#fff',
   },
 });
