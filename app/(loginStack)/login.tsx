@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TextInput, Switch, Image } from "react-native";
+import { View, Text, ScrollView, TextInput, Switch } from "react-native";
 import React, { useState } from "react";
 import ViewContainer from "@/shared/components/ViewContainer";
 import Header from "@/shared/components/Header";
@@ -9,13 +9,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useAuth } from "@/shared/context/Auth";
 import useLoginServices from "@/shared/hooks/loginServices";
-import ParallaxScrollView from "@/shared/components/ParallaxScrollView";
 
 const login = () => {
   const { login } = useAuth();
   const router = useRouter();
   const {
-    getFormValues,
     logFormSubmission,
     retrieveUserFromStorage,
     handleNoUserRegistered,
@@ -52,10 +50,12 @@ const login = () => {
 
   const onSubmit = async () => {
     if (!validForm()) {
+      console.log("Formulario no válido");
       return;
     }
+    console.log("Formulario válido");
 
-    const formValues = getFormValues(getValues());
+    const formValues = getValues();
     logFormSubmission(formValues);
 
     const user = await retrieveUserFromStorage(AsyncStorage);
@@ -75,7 +75,7 @@ const login = () => {
   return (
     <ViewContainer bottomProp={true}>
       <Header text="Iniciar sesión" />
-      <ParallaxScrollView headerImage={<Image source={require("@/assets/images/logotipo.jpeg")} />} headerBackgroundColor={{ dark: "#000", light: "#fff" }}>
+      <View className="flex-1 w-full h-full p-2 gap-10">
         <ScrollView className="w-full h-full">
           <Text className="text-2xl font-bold text-center mt-2 mb-5">
             Parqueo rápido y seguro
@@ -175,7 +175,7 @@ const login = () => {
             />
           </View>
         </ScrollView>
-      </ParallaxScrollView>
+      </View>
     </ViewContainer>
   );
 };

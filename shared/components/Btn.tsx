@@ -11,7 +11,7 @@ const Btn = ({
 }: BtnProps) => {
   // Estilo base común para todos los botones
   const baseStyle = {
-    className: "p-2 rounded-lg w-full h-16 justify-center items-center m-5",
+    className: "p-2 rounded-lg w-full h-16 justify-center items-center m-5 ml-0",
     pressedStyle: {
       opacity: 0.7,
       transform: [{ scale: 0.98 }],

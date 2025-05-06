@@ -1,16 +1,5 @@
 export default function useLoginServices() {
   // Funciones auxiliares
-  const isFormValid = (validForm: any): boolean => {
-    if (!validForm()) {
-      console.log("Formulario no válido");
-      return false;
-    }
-    return true;
-  };
-
-  const getFormValues = (getValues: any) => {
-    return getValues();
-  };
 
   const logFormSubmission = (values: any) => {
     console.log("Datos del formulario:", values);
@@ -56,8 +45,6 @@ export default function useLoginServices() {
   };
 
   return {
-    isFormValid,
-    getFormValues,
     logFormSubmission,
     retrieveUserFromStorage,
     handleNoUserRegistered,

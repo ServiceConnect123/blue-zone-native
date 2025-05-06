@@ -6,11 +6,8 @@ import { Text, View } from 'react-native';
 
 export default function TabOneScreen() {
   const webviewRef = useRef(null);
-  const {logout} = useAuth();
   return (
     <View className='flex-1 w-full h-full'>
-      <Btn title="Cerrar sesión" onPress={() => logout()} type="login"/>
-      <Text>logout</Text>
       {/*<WebView
         ref={webviewRef}
         source={require("../modules/reactHome/index.html")}
