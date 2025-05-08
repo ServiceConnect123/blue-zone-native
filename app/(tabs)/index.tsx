@@ -18,12 +18,6 @@ export default function TabOneScreen() {
 
   return (
     <ViewContainer>
-      <TouchableOpacity
-        className="bg-red-500 w-10 h-10 items-center justify-center"
-        onPress={handleLogout}
-      >
-        <Text className="text-white">Logout</Text>
-      </TouchableOpacity>
       <View className="flex-1 w-full h-full items-center justify-center">
         <ReactApp />
       </View>
