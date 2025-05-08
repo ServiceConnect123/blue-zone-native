@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React in WebView</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/styled-components/dist/styled-components.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      /* From Uiverse.io by marwam112010 */
+      .pack-container {
+        position: relative;
+        display: flex;
+        max-width: 350px;
+        flex-direction: column;
+        border-radius: 12px;
+        background-color: #212121;
+        border: 1px solid #fff;
+        padding: 1.6rem;
+        color: #fff;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+          0 2px 4px -2px rgb(0 0 0 / 0.1);
+      }
+
+      .header {
+        position: relative;
+        margin: 0;
+        margin-bottom: 2rem;
+        overflow: hidden;
+        border-radius: 0;
+        border-bottom: 1px solid #fff;
+        background: transparent;
+        padding-bottom: 1rem;
+        text-align: center;
+      }
+
+      .title {
+        display: block;
+        font-family: sans-serif;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        text-transform: uppercase;
+        color: #fff;
+      }
+
+      .price-container {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 4px;
+        font-family: sans-serif;
+        font-size: 4.5rem;
+        line-height: 1;
+      }
+
+      .price-container span:first-child {
+        margin-top: 10px;
+        font-size: 2.25rem;
+        line-height: 2.5rem;
+      }
+
+      .price-container span:last-child {
+        align-self: flex-end;
+        font-size: 2.25rem;
+        line-height: 2.5rem;
+      }
+
+      .lists {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .list {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .list span {
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        background-color: rgba(255, 255, 255, 0.185);
+        height: 30px;
+        width: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .list span svg {
+        height: 12px;
+        width: 12px;
+      }
+
+      .list p {
+        display: block;
+        font-family: sans-serif;
+      }
+
+      .button-container {
+        margin-top: 20px;
+        padding: 0;
+      }
+
+      .button-container button {
+        display: block;
+        width: 100%;
+        background-color: #fff;
+        padding: 10px 20px;
+        text-transform: uppercase;
+        color: #000;
+        outline: 0;
+        border: 0;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const Home = () => {
+        const [data, setData] = React.useState({
+          package: "Starter",
+          price: 27,
+          features: [
+            "2 team members",
+            "1000+ components",
+            "1 month free updates",
+            "Life time technical support",
+          ],
+        });
+        return (
+          <div className="pack-container">
+            <div className="header">
+              <p className="title">{data.package}</p>
+              <div className="price-container">
+                <span>$</span>
+                {data.price}
+                <span>/mo</span>
+              </div>
+            </div>
+            <div className="lists">
+              <ul>
+                <li className="list">
+                  <span>
+                    <svg
+                      aria-hidden="true"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4.5 12.75l6 6 9-13.5"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                      ></path>
+                    </svg>
+                  </span>
+                  <p>{data.features[0]}</p>
+                </li>
+                <li className="list">
+                  <span>
+                    <svg
+                      aria-hidden="true"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4.5 12.75l6 6 9-13.5"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                      ></path>
+                    </svg>
+                  </span>
+                  <p>{data.features[1]}</p>
+                </li>
+                <li className="list">
+                  <span>
+                    <svg
+                      aria-hidden="true"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4.5 12.75l6 6 9-13.5"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                      ></path>
+                    </svg>
+                  </span>
+                  <p>{data.features[2]}</p>
+                </li>
+                <li className="list">
+                  <span>
+                    <svg
+                      aria-hidden="true"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4.5 12.75l6 6 9-13.5"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                      ></path>
+                    </svg>
+                  </span>
+                  <p>{data.features[3]}</p>
+                </li>
+              </ul>
+            </div>
+            <div className="button-container">
+              <button
+                onClick={() => {
+                  if (window.ReactNativeWebView) {
+                    const message = {
+                      type: "BUTTON_PRESSED",
+                      data: data,
+                      timestamp: new Date().toISOString(),
+                    };
+                    window.ReactNativeWebView.postMessage(
+                      JSON.stringify(message)
+                    );
+
+                    // Opcional: Escuchar respuesta
+                    document.addEventListener("message", (e) => {
+                      console.log("Respuesta de RN:", JSON.parse(e.data));
+                    });
+                  } else {
+                    console.log("En entorno web:", { data });
+                  }
+                }}
+                type="button"
+              >
+                Comprar
+              </button>
+            </div>
+          </div>
+        );
+      };
+      ReactDOM.render(<Home />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

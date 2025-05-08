@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(()=>{
     AsyncStorage.getItem('auth').then((value) => {
+      console.log(value);
       if(value === 'true'){
         setIsAuthenticated(true);
       }

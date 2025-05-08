@@ -1,23 +1,32 @@
-import Btn from '@/shared/components/Btn';
-import { useAuth } from '@/shared/context/Auth';
-import { useRef } from 'react';
-
-import { Text, View } from 'react-native';
+import ViewContainer from "@/shared/components/ViewContainer";
+import { Text, TouchableOpacity, View } from "react-native";
+import { Quemada } from "@/shared/modules/reactHomeModule/VistaQuemada/Quemada";
+import { ReactApp } from "@/shared/modules/reactHomeModule/ReactWeb/ReactApp";
+import { useContext } from "react";
+import { useAuth } from "@/shared/context/Auth";
+import { useRouter } from "expo-router";
 
 export default function TabOneScreen() {
-  const webviewRef = useRef(null);
+  const { logout,isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    console.log('isAuthenticated',isAuthenticated);
+    router.replace("/(loginStack)/welcome");
+  };
+
   return (
-    <View className='flex-1 w-full h-full'>
-      {/*<WebView
-        ref={webviewRef}
-        source={require("../modules/reactHome/index.html")}
-        className='w-full h-full'
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        originWhitelist={["*"]}
-        scalesPageToFit={true}
-        mixedContentMode="compatibility"
-      />*/}
-    </View>
+    <ViewContainer>
+      <TouchableOpacity
+        className="bg-red-500 w-10 h-10 items-center justify-center"
+        onPress={handleLogout}
+      >
+        <Text className="text-white">Logout</Text>
+      </TouchableOpacity>
+      <View className="flex-1 w-full h-full items-center justify-center">
+        <ReactApp />
+      </View>
+    </ViewContainer>
   );
 }

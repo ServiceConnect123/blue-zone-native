@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React in WebView</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/styled-components/dist/styled-components.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        margin: 0%;
+        background-color: #f5f5f7;
+        width: 100%;
+        height: 100%;
+      }
+      #root {
+        margin: 0%;
+        padding: 0%;
+      }
+      button {
+        background-color: #007aff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .header {
+        background-color: #dec9a0;
+        padding: 10px;
+        text-align: center;
+        width: 95%;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        margin-bottom: 10px;
+        gap: 10px;
+        flex-direction: column;
+      }
+      .header h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #ffffff;
+      }
+      .header input {
+        width: 70%;
+        height: 30px;
+        border-radius: 5px;
+        border: none;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 12px;
+        outline: none;
+      }
+      main {
+        padding: 10px;
+        text-align: center;
+        width: 95%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        margin-bottom: 10px;
+        gap: 10px;
+        flex-direction: column;
+      }
+      /* From Uiverse.io by kamehame-ha */
+      .cards {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .cards .red {
+        background-color: #f43f5e;
+      }
+
+      .cards .blue {
+        background-color: #3b82f6;
+      }
+
+      .cards .green {
+        background-color: #22c55e;
+      }
+
+      .cards .card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        height: 100px;
+        width: 250px;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
+        transition: 400ms;
+      }
+
+      .cards .card p.tip {
+        font-size: 1em;
+        font-weight: 700;
+      }
+
+      .cards .card p.second-text {
+        font-size: 0.7em;
+      }
+      footer {
+        padding: 10px;
+        text-align: center;
+        width: 95%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        margin-bottom: 10px;
+        gap: 10px;
+        flex-direction: column;
+        top: 40%;
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const Home = () => {
+        const [count, setCount] = React.useState(0);
+        return (
+          <div>
+            <header className="header">
+              <h1>Parqueadero</h1>
+              <input type="text" placeholder="Ingrese el numero de placa" />
+            </header>
+            <main>
+              <button onClick={() => setCount(count + 1)}>
+                Increment Counter
+              </button>
+              <p>Current count: {count}</p>
+
+              <div className="cards">
+                <button className="card red" onClick={() => setCount(count + 1)}>
+                  <p className="tip">Hover Me {count}</p>
+                  <p className="second-text">Lorem Ipsum</p>
+                </button>
+                <button className="card blue">
+                  <p className="tip">Hover Me {count}</p>
+                  <p className="second-text">Lorem Ipsum</p>
+                </button>
+                <button className="card green">
+                  <p className="tip">Hover Me {count}</p>
+                  <p className="second-text">Lorem Ipsum</p>
+                </button>
+              </div>
+            </main>
+
+            {/* Comunicación con React Native */}
+            <footer>
+              <button
+                onClick={() => {
+                  if (window.ReactNativeWebView) {
+                    const message = {
+                      type: "BUTTON_PRESSED",
+                      count: count,
+                      timestamp: new Date().toISOString(),
+                    };
+                    window.ReactNativeWebView.postMessage(
+                      JSON.stringify(message)
+                    );
+
+                    // Opcional: Escuchar respuesta
+                    document.addEventListener("message", (e) => {
+                      console.log("Respuesta de RN:", JSON.parse(e.data));
+                    });
+                  } else {
+                    console.log("En entorno web:", { count });
+                  }
+                }}
+              >
+                Enviar a React Native
+              </button>
+            </footer>
+          </div>
+        );
+      };
+      ReactDOM.render(<Home />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

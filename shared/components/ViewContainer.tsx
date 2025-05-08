@@ -17,7 +17,6 @@ const ViewContainer = ({
         paddingBottom: bottomProp ? bottom : 0,
         flex: 1,
       }}
-      className="bg-red-500"
     >
       {children}
     </View>

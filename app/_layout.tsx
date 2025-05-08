@@ -46,17 +46,14 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const isAuthenticated = useAuth();
+  const {isAuthenticated} = useAuth();
   return (
     <ThemeProvider value={DefaultTheme}>
       <Stack>
-      {isAuthenticated ? (
+      {!isAuthenticated ? (
           <Stack.Screen name="(loginStack)" options={{ headerShown: false }} />
         ) : (
-          <>
-            <Stack.Screen name="(tabs)" options={{ headerShown: true }} />
-            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-          </>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         )}
         <Stack.Screen name="+not-found" options={{ headerShown: false }} />
       </Stack>
