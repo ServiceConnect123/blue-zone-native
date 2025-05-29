@@ -49,11 +49,14 @@ function RootLayoutNav() {
   const {isAuthenticated} = useAuth();
   return (
     <ThemeProvider value={DefaultTheme}>
-      <Stack>
+      <Stack screenOptions={{
+        animation: 'fade_from_bottom',
+        headerShown: false
+      }}>
       {!isAuthenticated ? (
-          <Stack.Screen name="(loginStack)" options={{ headerShown: false }} />
+          <Stack.Screen name="(loginStack)" />
         ) : (
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" />
         )}
         <Stack.Screen name="+not-found" options={{ headerShown: false }} />
       </Stack>

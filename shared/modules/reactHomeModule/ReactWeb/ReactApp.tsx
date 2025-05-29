@@ -48,7 +48,7 @@ export const ReactApp = () => {
     <View style={styles.container}>
       <WebView
         ref={webViewRef}
-        source={{ uri: "https://reactnativewebviewtest.netlify.app/" }}
+        source={{ uri: "https://front-user-zonas-azules.netlify.app/" }}
         javaScriptEnabled={true}
         domStorageEnabled={true}
         style={styles.webview}

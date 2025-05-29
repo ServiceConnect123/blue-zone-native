@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TextInput, Switch } from "react-native";
+import { View, Text, ScrollView, TextInput, Switch, Platform, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import ViewContainer from "@/shared/components/ViewContainer";
 import Header from "@/shared/components/Header";
@@ -13,7 +13,8 @@ import useLoginServices from "@/shared/hooks/loginServices";
 const login = () => {
   const { login } = useAuth();
   const router = useRouter();
-  
+  const isWeb = Platform.OS === "web";
+
   const {
     logFormSubmission,
     retrieveUserFromStorage,
@@ -22,6 +23,7 @@ const login = () => {
     handleInvalidCredentials,
     handleSuccessfulLogin,
   } = useLoginServices();
+
   const {
     control,
     handleSubmit,
@@ -88,7 +90,7 @@ const login = () => {
           </View>
 
           {/* Formulario */}
-          <View className="flex items-center h-full w-full pb-24 p-3">
+          <View className="flex h-full w-full pb-24 p-3">
             <Controller
               control={control}
               rules={{ required: "Correo obligatorio" }}
@@ -169,11 +171,13 @@ const login = () => {
               )}
               name="savePassword"
             />
-            <Btn
-              title="Ingresar"
-              onPress={handleSubmit(onSubmit)}
-              type="login"
-            />
+            <View className="w-full h-auto flex items-center justify-center">
+              <Btn
+                title="Ingresar"
+                onPress={handleSubmit(onSubmit)}
+                type="login"
+              />
+            </View>
           </View>
         </ScrollView>
       </View>
@@ -182,3 +186,7 @@ const login = () => {
 };
 
 export default login;
+
+const styles = StyleSheet.create({
+  
+})
