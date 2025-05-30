@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import "../global.css"
 import { AuthProvider, useAuth } from '@/shared/context/Auth';
+import { StatusBar } from 'react-native';
 
 export {
   ErrorBoundary,
@@ -40,6 +41,7 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
+      <StatusBar barStyle="default" />
       <RootLayoutNav />
     </AuthProvider>
   );

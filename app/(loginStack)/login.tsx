@@ -6,82 +6,33 @@ import {
   Switch,
   Platform,
   StyleSheet,
+  ToastAndroid,
 } from "react-native";
 import React, { useState } from "react";
 import ViewContainer from "@/shared/components/ViewContainer";
 import Header from "@/shared/components/Header";
 import { FontAwesome } from "@expo/vector-icons";
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import Btn from "@/shared/components/Btn";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRouter } from "expo-router";
-import { useAuth } from "@/shared/context/Auth";
-import useLoginServices from "@/shared/hooks/loginServices";
+import useLogin from "@/shared/hooks/useLogin";
 
 const login = () => {
-  const { login } = useAuth();
-  const router = useRouter();
-  const isWeb = Platform.OS === "web";
-
-  const {
-    logFormSubmission,
-    retrieveUserFromStorage,
-    handleNoUserRegistered,
-    areCredentialsValid,
-    handleInvalidCredentials,
-    handleSuccessfulLogin,
-  } = useLoginServices();
-
   const {
     control,
+    errors,
+    showPassword,
+    setShowPassword,
+    onSubmit,
     handleSubmit,
-    getValues,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-      savePassword: false,
-    },
-  });
-
-  const [showPassword, setShowPassword] = useState(false);
+    stylesTailwind,
+    isWeb,
+  } = useLogin();
 
   const labelStyleForm = "text-lg text-start w-full font-bold";
   const inputStyleForm =
     "border border-gray-400 rounded-2xl p-3 w-full h-16 text-xl";
   const iconStyleForm = "absolute right-3 top-1/2 -translate-y-1/2";
   const errorStyle = "text-red-500 text-start w-full";
-
-  const validForm = () => {
-    const data = getValues();
-    const validData = Object.values(data).every((value) => value !== "");
-    return validData;
-  };
-
-  const onSubmit = async () => {
-    if (!validForm()) {
-      console.log("Formulario no válido");
-      return;
-    }
-    console.log("Formulario válido");
-
-    const formValues = getValues();
-    logFormSubmission(formValues);
-
-    const user = await retrieveUserFromStorage(AsyncStorage);
-    if (!user) {
-      handleNoUserRegistered();
-      return;
-    }
-
-    if (!areCredentialsValid(user, formValues)) {
-      handleInvalidCredentials();
-      return;
-    }
-
-    await handleSuccessfulLogin(login, router);
-  };
 
   return (
     <ViewContainer bottomProp={true}>
@@ -340,11 +291,11 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 40,
     display: "flex",
-    alignItems:"center",
+    alignItems: "center",
     justifyContent: "center",
     marginBottom: 10,
   },
-  containerInputCheck:{
+  containerInputCheck: {
     width: 500,
     height: 80,
     display: "flex",

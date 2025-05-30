@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TextInput, StyleSheet } from "react-native";
+import { View, Text, ScrollView, TextInput, StyleSheet, ToastAndroid } from "react-native";
 import React from "react";
 import ViewContainer from "@/shared/components/ViewContainer";
 import Header from "@/shared/components/Header";
@@ -65,6 +65,7 @@ const Register = () => {
   const onSubmit = async () => {
     console.log(getValues(), errors);
     await AsyncStorage.setItem("user", JSON.stringify(getValues()));
+    ToastAndroid.show("Usuario registrado exitosamente", ToastAndroid.LONG);
     console.log("user", getValues());
     router.push("/login");
   };
@@ -86,11 +87,11 @@ const Register = () => {
             render={({ field: { onChange, onBlur, value } }) => (
               <View
                 style={isWeb ? styles.containerInputWeb : {}}
-                className={containerStyleForm}
+                className={isWeb ? "" : containerStyleForm}
               >
                 <Text
                   style={isWeb ? styles.labelWeb : {}}
-                  className={labelStyleForm}
+                  className={isWeb ? "" : labelStyleForm}
                 >
                   Número de celular
                 </Text>
@@ -100,13 +101,13 @@ const Register = () => {
                 >
                   <View
                     style={isWeb ? styles.iconWebSelect : {}}
-                    className={isWeb ? "" : ""}
+                    className={isWeb ? "" : "absolute z-10"}
                   >
                     <SelectDropDown data={countrysNumber} />
                   </View>
                   <TextInput
                     style={isWeb ? {...styles.inputWeb,paddingLeft:75} : {}}
-                    className={inputStyleForm + " pl-28"}
+                    className={inputStyleForm + " pl-[75px] "}
                     placeholder="Número de celular"
                     onBlur={onBlur}
                     onChangeText={onChange}
