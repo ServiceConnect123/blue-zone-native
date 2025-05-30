@@ -41,7 +41,7 @@ const Btn = ({
           <Text
             style={{
               textAlign: "center",
-              fontSize: 14,
+              fontSize: 16,
               fontWeight: "bold",
               color: "black",
             }}
@@ -126,12 +126,10 @@ const Btn = ({
               alignItems: "center",
               justifyContent: "center",
               flexDirection: "row",
-              gap:10
+              gap: 10,
             }}
           >
-            <View
-              style={styles.containerIcon}
-            >
+            <View style={styles.containerIcon}>
               <FontAwesome name="facebook" size={20} color="white" />
             </View>
             <Text
@@ -192,10 +190,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     minHeight: 50,
   },
-  containerIcon:{
+  containerIcon: {
     padding: 5,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  }
+  },
 });

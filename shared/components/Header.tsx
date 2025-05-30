@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   textWeb: {
-    fontSize: 20,
+    fontSize: 28,
     fontWeight: "bold",
     color: "white",
   },

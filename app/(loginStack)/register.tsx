@@ -72,11 +72,15 @@ const Register = () => {
   return (
     <ViewContainer bottomProp={true}>
       <Header text="Registrarse" />
-      <ScrollView className="w-full h-full">
+      <ScrollView
+        style={isWeb ? styles.containerScrollView : {}}
+        className={isWeb ? "" : "w-full h-full"}
+      >
         <View
-          style={isWeb ? styles.containerScrollView : {}}
+          style={isWeb ? styles.containerFormWeb : {}}
           className={isWeb ? "" : "flex-1 w-full h-full p-2 items-center pt-4"}
         >
+          {/*Phone*/}
           <Controller
             rules={{ required: "Número de celular es obligatorio" }}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -90,12 +94,18 @@ const Register = () => {
                 >
                   Número de celular
                 </Text>
-                <View style={isWeb ? styles.containerInputWeb : {}} className="flex flex-row items-center w-full relative">
-                  <View className="absolute left-2 top-2 z-10 border-r-2 border-gray-400">
+                <View
+                  style={isWeb ? styles.containerInputWeb : {}}
+                  className="flex flex-row items-center w-full relative"
+                >
+                  <View
+                    style={isWeb ? styles.iconWebSelect : {}}
+                    className={isWeb ? "" : ""}
+                  >
                     <SelectDropDown data={countrysNumber} />
                   </View>
                   <TextInput
-                    style={isWeb ? styles.inputWeb : {}}
+                    style={isWeb ? {...styles.inputWeb,paddingLeft:75} : {}}
                     className={inputStyleForm + " pl-28"}
                     placeholder="Número de celular"
                     onBlur={onBlur}
@@ -109,6 +119,7 @@ const Register = () => {
             control={control}
           />
 
+          {/*Email*/}
           <Controller
             rules={{
               required: "Correo electrónico es obligatorio",
@@ -147,6 +158,7 @@ const Register = () => {
             control={control}
           />
 
+          {/*Password*/}
           <Controller
             rules={{
               required: "Contraseña es obligatoria",
@@ -156,8 +168,16 @@ const Register = () => {
             }}
             render={({ field: { onChange, onBlur, value } }) => {
               return (
-                <View style={isWeb ? styles.containerInputWeb : {}} className={containerStyleForm}>
-                  <Text style={isWeb ? styles.labelWeb : {}} className={labelStyleForm}>Contraseña</Text>
+                <View
+                  style={isWeb ? styles.containerInputWeb : {}}
+                  className={containerStyleForm}
+                >
+                  <Text
+                    style={isWeb ? styles.labelWeb : {}}
+                    className={labelStyleForm}
+                  >
+                    Contraseña
+                  </Text>
                   <TextInput
                     secureTextEntry={!showPassword}
                     style={isWeb ? styles.inputWeb : {}}
@@ -167,7 +187,10 @@ const Register = () => {
                     onChangeText={onChange}
                     value={value}
                   />
-                  <View style={isWeb ? styles.iconWeb : {}} className={iconStyleForm}>
+                  <View
+                    style={isWeb ? styles.iconWeb : {}}
+                    className={iconStyleForm}
+                  >
                     <FontAwesome
                       name={showPassword ? "eye" : "eye-slash"}
                       size={24}
@@ -189,6 +212,7 @@ const Register = () => {
             control={control}
           />
 
+          {/*Confirm Password*/}
           <Controller
             rules={{
               required: "Confirmar contraseña es obligatoria",
@@ -198,8 +222,16 @@ const Register = () => {
             }}
             render={({ field: { onChange, onBlur, value } }) => {
               return (
-                <View style={isWeb ? styles.containerInputWeb : {}} className={containerStyleForm}>
-                  <Text style={isWeb ? styles.labelWeb : {}} className={labelStyleForm}>Confirmar contraseña</Text>
+                <View
+                  style={isWeb ? styles.containerInputWeb : {}}
+                  className={containerStyleForm}
+                >
+                  <Text
+                    style={isWeb ? styles.labelWeb : {}}
+                    className={labelStyleForm}
+                  >
+                    Confirmar contraseña
+                  </Text>
                   <TextInput
                     secureTextEntry={!showConfirmPassword}
                     style={isWeb ? styles.inputWeb : {}}
@@ -209,7 +241,10 @@ const Register = () => {
                     onChangeText={onChange}
                     value={value}
                   />
-                  <View style={isWeb ? styles.iconWeb : {}} className={iconStyleForm}>
+                  <View
+                    style={isWeb ? styles.iconWeb : {}}
+                    className={iconStyleForm}
+                  >
                     <FontAwesome
                       name={showConfirmPassword ? "eye" : "eye-slash"}
                       size={24}
@@ -231,7 +266,11 @@ const Register = () => {
             control={control}
           />
 
-          <View className="flex flex-col gap-2 mt-2 mb-10">
+          {/*Info Password*/}
+          <View
+            style={isWeb ? styles.containerInfoWeb : {}}
+            className={isWeb ? "" : "flex flex-col gap-2 mt-2 mb-10"}
+          >
             <Text>En la digitación de la contraseña, tenga en cuenta: </Text>
             <Text>
               {" "}
@@ -250,12 +289,18 @@ const Register = () => {
             </Text>
           </View>
 
-          <Btn
-            title="Registrarse"
-            onPress={handleSubmit(onSubmit)}
-            type="login"
-            disabled={Object.keys(errors).length == 0 ? false : true}
-          />
+          {/*Btn Register*/}
+          <View
+            style={isWeb ? styles.containerBtnWeb : {}}
+            className={isWeb ? "" : "w-full h-auto"}
+          >
+            <Btn
+              title="Registrarse"
+              onPress={handleSubmit(onSubmit)}
+              type="login"
+              disabled={Object.keys(errors).length == 0 ? false : true}
+            />
+          </View>
         </View>
       </ScrollView>
     </ViewContainer>
@@ -341,10 +386,13 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 20,
+    marginBottom: 20,
+    gap: 10,
   },
   containerInputWeb: {
     width: 500,
-    height: 80,
+    height: "auto",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -378,12 +426,6 @@ const styles = StyleSheet.create({
     right: 10,
     top: 35,
   },
-  errorWeb: {
-    fontSize: 12,
-    color: "red",
-    textAlign: "left",
-    width: "100%",
-  },
   containerBtnWeb: {
     width: "100%",
     height: 40,
@@ -399,5 +441,24 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "center",
     marginBottom: 10,
+  },
+  containerInfoWeb: {
+    width: 500,
+    height: "auto",
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    marginBottom: 10,
+    gap: 10,
+  },
+  iconWebSelect: {
+    width: 24,
+    height: 24,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    left: 25,
+    top: 15,
   },
 });
