@@ -8,6 +8,7 @@ import 'react-native-reanimated';
 import "../global.css"
 import { AuthProvider, useAuth } from '@/shared/context/Auth';
 import { StatusBar } from 'react-native';
+import useLocationPermission from '@/shared/hooks/useLocation';
 
 export {
   ErrorBoundary,
@@ -49,6 +50,11 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const {isAuthenticated} = useAuth();
+  const hasPermission = useLocationPermission();
+
+  if (!hasPermission) {
+    return null;
+  }
   return (
     <ThemeProvider value={DefaultTheme}>
       <Stack screenOptions={{

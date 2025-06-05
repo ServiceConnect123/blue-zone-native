@@ -15,6 +15,7 @@ const welcome = () => {
       setIsWeb(true);
     }
   }, []);
+  
   if (isWeb) {
     return (
       <ViewContainer bottomProp={true}>
