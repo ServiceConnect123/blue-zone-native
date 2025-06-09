@@ -9,6 +9,7 @@ import "../global.css"
 import { AuthProvider, useAuth } from '@/shared/context/Auth';
 import { StatusBar } from 'react-native';
 import useLocationPermission from '@/shared/hooks/useLocation';
+import LoadScreen from '@/shared/components/LoadScreen';
 
 export {
   ErrorBoundary,
@@ -50,7 +51,11 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const {isAuthenticated} = useAuth();
-  const {permissionGranted} = useLocationPermission();
+  const {permissionGranted,isLoading} = useLocationPermission();
+
+  if (isLoading) {
+    return <LoadScreen />;
+  }
 
   if (!permissionGranted) {
     return null;
