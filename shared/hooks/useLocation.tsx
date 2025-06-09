@@ -1,61 +1,46 @@
 import { useEffect, useState } from "react";
-import { PermissionsAndroid, Platform, Alert } from "react-native";
+import * as Location from "expo-location";
 
 const useLocationPermission = () => {
-  const [hasLocationPermission, setHasLocationPermission] = useState(false);
-
-  const requestLocationPermission = async () => {
-    if (Platform.OS !== "android") {
-      // iOS: se maneja diferente o ya tienes permisos declarados
-      setHasLocationPermission(true);
-      return;
-    }
-
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: "Permiso de Ubicación",
-          message:
-            "Esta app necesita acceso a tu ubicación para mostrar el mapa.",
-          buttonNeutral: "Pregúntame luego",
-          buttonNegative: "Cancelar",
-          buttonPositive: "OK",
-        }
-      );
-
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("Permiso de ubicación concedido");
-        setHasLocationPermission(true);
-      } else {
-        console.log("Permiso de ubicación denegado");
-        setHasLocationPermission(false);
-        // Reintentar con un mensaje claro
-        Alert.alert(
-          "Permiso Requerido",
-          "Debes conceder el permiso de ubicación para usar el mapa.",
-          [
-            {
-              text: "Volver a intentar",
-              onPress: () => requestLocationPermission(),
-            },
-            {
-              text: "Cancelar",
-              style: "cancel",
-            },
-          ]
-        );
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  };
+  const [location, setLocation] = useState<Location.LocationObject | null>(
+    null
+  );
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    requestLocationPermission();
+    (async () => {
+      try {
+        // Solicitar permisos
+        const { status } = await Location.requestForegroundPermissionsAsync();
+
+        if (status !== "granted") {
+          setErrorMsg("Permiso de ubicación denegado");
+          setIsLoading(false);
+          return;
+        }
+
+        // Obtener ubicación actual
+        const location = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.High, // Alta precisión
+        });
+
+        setLocation(location);
+      } catch (error) {
+        setErrorMsg("Error al obtener la ubicación");
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
   }, []);
 
-  return hasLocationPermission;
+  return {
+    location,
+    errorMsg,
+    isLoading,
+    permissionGranted: !!location && !errorMsg,
+  };
 };
 
 export default useLocationPermission;

@@ -31,7 +31,7 @@ export const ReactApp = () => {
     <View style={styles.container}>
       <WebView
         ref={webViewRef}
-        source={{ uri: user }}
+        source={{ uri: admin }}
         javaScriptEnabled={true}
         domStorageEnabled={true}
         style={styles.webview}
