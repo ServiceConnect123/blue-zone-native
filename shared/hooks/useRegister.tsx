@@ -4,6 +4,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { useRouter } from "expo-router";
 import axios from "axios";
 import { API_URL } from "@env";
+import { showToast } from "../components/CustomToast";
 
 export interface Country {
   phoneCode: string;
@@ -72,7 +73,7 @@ const useRegister = (countrysNumber: Country[]) => {
 
   const onSubmit = async () => {
     if (!validateForm() || !validateDataForm()) {
-      ToastAndroid.show("Formulario no válido", ToastAndroid.LONG);
+      showToast("error", "Formulario no válido", "");
       return;
     } else {
       registerUser();
@@ -81,33 +82,38 @@ const useRegister = (countrysNumber: Country[]) => {
 
   const registerUser = async () => {
     setLoading(true);
-    console.log(getValues(), errors);
-    console.log(API_URL);
-    try {
-      await axios
-        .post(`${API_URL}auth/signup`, {
-          phoneNumber:
-            selectedCountry.phoneCode + " " + getValues().phoneNumber,
-          email: getValues().email,
-          password: getValues().password,
-        })
-        .then((res) => {
-          console.log(res.data);
-          ToastAndroid.show(
-            "Usuario registrado exitosamente",
-            ToastAndroid.LONG
-          );
-          router.push("/login");
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log("error: interno", error);
-          setLoading(false);
+    console.log("API URL:", API_URL);
+    const phoneNumber = selectedCountry.phoneCode + getValues().phoneNumber.replace(/\s+/g, "");
+    const data = {
+      phoneNumber,
+      email: getValues().email,
+      password: getValues().password,
+    };
+    await axios
+      .post(`${API_URL}/auth/signup`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        showToast("success", "Usuario registrado exitosamente", "", {
+          duration: 3000,
+          position: "top",
+          autoHide: true,
         });
-    } catch (error) {
-      console.log("error: externo ", error);
-      setLoading(false);
-    }
+        router.push("/login");
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("Error en la petición:", error);
+        showToast("error", "Error al registrar usuario", "", {
+          duration: 3000,
+          position: "top",
+          autoHide: true,
+        });
+        setLoading(false);
+      });
   };
 
   const validateForm = (): boolean => {

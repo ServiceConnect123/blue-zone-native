@@ -4,7 +4,6 @@ import {
   ScrollView,
   TextInput,
   StyleSheet,
-  ToastAndroid,
 } from "react-native";
 import React from "react";
 import ViewContainer from "@/shared/components/ViewContainer";

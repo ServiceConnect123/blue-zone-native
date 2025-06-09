@@ -1,29 +1,29 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-import "../global.css"
-import { AuthProvider, useAuth } from '@/shared/context/Auth';
-import { StatusBar } from 'react-native';
-import useLocationPermission from '@/shared/hooks/useLocation';
-import LoadScreen from '@/shared/components/LoadScreen';
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import { useFonts } from "expo-font";
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
+import "react-native-reanimated";
+import "../global.css";
+import { AuthProvider, useAuth } from "@/shared/context/Auth";
+import { StatusBar } from "react-native";
+import useLocationPermission from "@/shared/hooks/useLocation";
+import LoadScreen from "@/shared/components/LoadScreen";
+import CustomToast from "@/shared/components/CustomToast";
+import Toast from "react-native-toast-message";
 
-export {
-  ErrorBoundary,
-} from 'expo-router';
+export { ErrorBoundary } from "expo-router";
 
 export const unstable_settings = {
-  initialRouteName: '(loginStack)',
+  initialRouteName: "(loginStack)",
 };
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -42,16 +42,21 @@ export default function RootLayout() {
   }
 
   return (
-    <AuthProvider>
-      <StatusBar barStyle="default" />
-      <RootLayoutNav />
-    </AuthProvider>
+    <>
+      <AuthProvider>
+        <StatusBar barStyle="default" />
+        <RootLayoutNav />
+      </AuthProvider>
+      {/* Estos componentes deben estar al final pero dentro del componente raíz */}
+      <CustomToast />
+      <Toast />
+    </>
   );
 }
 
 function RootLayoutNav() {
-  const {isAuthenticated} = useAuth();
-  const {permissionGranted,isLoading} = useLocationPermission();
+  const { isAuthenticated } = useAuth();
+  const { permissionGranted, isLoading } = useLocationPermission();
 
   if (isLoading) {
     return <LoadScreen />;
@@ -62,12 +67,14 @@ function RootLayoutNav() {
   }
   return (
     <ThemeProvider value={DefaultTheme}>
-      <Stack screenOptions={{
-        animation: 'fade_from_bottom',
-        headerShown: false
-      }}>
-      {!isAuthenticated ? (
-          <Stack.Screen name="(loginStack)"/>
+      <Stack
+        screenOptions={{
+          animation: "fade_from_bottom",
+          headerShown: false,
+        }}
+      >
+        {!isAuthenticated ? (
+          <Stack.Screen name="(loginStack)" />
         ) : (
           <Stack.Screen name="(tabs)" />
         )}

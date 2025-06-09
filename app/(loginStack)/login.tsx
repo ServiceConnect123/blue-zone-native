@@ -24,7 +24,6 @@ const login = () => {
     setShowPassword,
     onSubmit,
     handleSubmit,
-    stylesTailwind,
     isWeb,
   } = useLogin();
 
@@ -35,7 +34,7 @@ const login = () => {
   const errorStyle = "text-red-500 text-start w-full";
 
   return (
-    <ViewContainer bottomProp={true}>
+    <ViewContainer bottomProp={true} topProp={true}>
       <Header text="Iniciar sesión" />
       <View
         className={isWeb ? "" : "flex-1 w-full h-full p-2 gap-10"}

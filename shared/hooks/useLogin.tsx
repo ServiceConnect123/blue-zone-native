@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ToastAndroid, Platform } from "react-native";
 import axios from "axios";
+import { showToast } from "../components/CustomToast";
 import { API_URL } from "@env";
 
 interface LoginForm {
@@ -69,25 +70,37 @@ const useLogin = () => {
   };
 
   const login = async ()=>{
-    axios.post(`${API_URL}/auth/signin`,{
+    const data = {
       email:getValues().email,
-      password:getValues().password
-    }).then((res)=>{
-      console.log(res.data);
-      if(res.data.success){
-        AsyncStorage.setItem("user", JSON.stringify(res.data));
+      password:getValues().password 
+    }
+    axios.post(`${API_URL}/auth/signin`,data,{
+      headers:{
+        "Content-Type": "application/json"
+      }
+    }).then((res:any)=>{
+      if(res){
+        AsyncStorage.setItem("user", JSON.stringify(res));
         AsyncStorage.setItem("auth", "true");
         handleSuccessfulLogin();
       }
     }).catch((err)=>{
       console.log(err);
-      ToastAndroid.show("Error al iniciar sesión", ToastAndroid.LONG);
+      showToast("error", "Error al iniciar sesión", "", {
+        duration: 3000,
+        position: "top",
+        autoHide: true,
+      });
     })
   }
 
   const handleSuccessfulLogin = async () => {
     router.replace("/(tabs)");
-    ToastAndroid.show("Usuario Iniciado correctamente", ToastAndroid.LONG);
+    showToast("success", "Usuario Iniciado correctamente", "", {
+      duration: 3000,
+      position: "top",
+      autoHide: true,
+    });
   };
 
   const validForm = () => {
@@ -98,8 +111,11 @@ const useLogin = () => {
 
   const onSubmit = async () => {
     if (!validForm()) {
-      console.log("Formulario no válido");
-      ToastAndroid.show("Formulario no válido", ToastAndroid.LONG);
+      showToast("error", "Formulario no válido", "", {
+        duration: 3000,
+        position: "top",
+        autoHide: true,
+      });
       return;
     }
 
