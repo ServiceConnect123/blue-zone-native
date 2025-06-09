@@ -3,13 +3,11 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 
 type AuthContextType = {
   isAuthenticated: boolean;
-  login: () => void;
   logout: () => void;
 };
 
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
-  login: () => {},
   logout: () => {},
 });
 
@@ -21,14 +19,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log(value);
       if(value === 'true'){
         setIsAuthenticated(true);
+      }else{
+        setIsAuthenticated(false);
       }
     })
   },[])
-
-  const login = () => {
-    AsyncStorage.setItem('auth', 'true');
-    setIsAuthenticated(true);
-  };
 
   const logout = () => {
     AsyncStorage.setItem('auth', 'false');
@@ -36,7 +31,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, logout }}>
       {children}
     </AuthContext.Provider>
   );

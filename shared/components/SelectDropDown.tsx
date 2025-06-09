@@ -3,13 +3,13 @@ import React from "react";
 import SelectDropdown from "react-native-select-dropdown";
 import Icon from "@expo/vector-icons/FontAwesome";
 
-const SelectDropDown = ({data}:any) => {
+const SelectDropDown = ({data, onSelect}:any) => {
   return (
     <View className="w-auto">
       <SelectDropdown
         data={data}
-        onSelect={(selectedItem, index) => {
-          console.log(selectedItem, index);
+        onSelect={(selectedItem) => {
+          onSelect(selectedItem);
         }}
         renderButton={(selectedItem, isOpened) => {
           return (

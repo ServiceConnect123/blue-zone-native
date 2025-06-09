@@ -36,13 +36,13 @@ const welcome = () => {
           }
           headerBackgroundColor={{ dark: "#000", light: "#fff" }}
         >
-          <View className="flex-1 w-full h-full p-0 gap-10">
-            <Text className="text-bold text-xl">
+          <View className="flex-1 w-full h-full gap-16">
+            <Text className="text-bold text-lg w-full !mt-4">
               Inicia sesión con tu cuenta para ingresar con tu perfil de usuario
               registrado
             </Text>
-            <View className="w-full flex items-center justify-center">
-              <View className="w-full mb-5 h-auto flex items-center justify-center">
+            <View className="w-full flex items-center justify-center h-auto">
+              <View className="w-full mb-8 h-auto flex items-center justify-center">
                 <Btn
                   title="Iniciar sesión"
                   onPress={() => router.push("/login")}

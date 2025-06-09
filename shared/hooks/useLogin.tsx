@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useAuth } from "@/shared/context/Auth";
 import { ToastAndroid, Platform } from "react-native";
+import axios from "axios";
+import { API_URL } from "@env";
 
 interface LoginForm {
   email: string;
@@ -12,7 +13,6 @@ interface LoginForm {
 }
 
 const useLogin = () => {
-  const { login } = useAuth();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const isWeb = Platform.OS === "web";
@@ -68,9 +68,24 @@ const useLogin = () => {
     ToastAndroid.show("Credenciales no válidas", ToastAndroid.LONG);
   };
 
+  const login = async ()=>{
+    axios.post(`${API_URL}/auth/signin`,{
+      email:getValues().email,
+      password:getValues().password
+    }).then((res)=>{
+      console.log(res.data);
+      if(res.data.success){
+        AsyncStorage.setItem("user", JSON.stringify(res.data));
+        AsyncStorage.setItem("auth", "true");
+        handleSuccessfulLogin();
+      }
+    }).catch((err)=>{
+      console.log(err);
+      ToastAndroid.show("Error al iniciar sesión", ToastAndroid.LONG);
+    })
+  }
+
   const handleSuccessfulLogin = async () => {
-    console.log("Credenciales correctas");
-    login();
     router.replace("/(tabs)");
     ToastAndroid.show("Usuario Iniciado correctamente", ToastAndroid.LONG);
   };
@@ -90,19 +105,7 @@ const useLogin = () => {
 
     const formValues = getValues();
     logFormSubmission(formValues);
-
-    const user = await retrieveUserFromStorage();
-    if (!user) {
-      handleNoUserRegistered();
-      return;
-    }
-
-    if (!areCredentialsValid(user, formValues)) {
-      handleInvalidCredentials();
-      return;
-    }
-
-    await handleSuccessfulLogin();
+    await login();
   };
 
   return {

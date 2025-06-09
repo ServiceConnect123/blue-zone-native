@@ -67,7 +67,7 @@ function RootLayoutNav() {
         headerShown: false
       }}>
       {!isAuthenticated ? (
-          <Stack.Screen name="(loginStack)" />
+          <Stack.Screen name="(loginStack)"/>
         ) : (
           <Stack.Screen name="(tabs)" />
         )}
