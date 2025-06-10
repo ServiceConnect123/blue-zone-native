@@ -11,11 +11,12 @@ import {
 import React, { useState } from "react";
 import ViewContainer from "@/shared/components/ViewContainer";
 import Header from "@/shared/components/Header";
-import { FontAwesome } from "@expo/vector-icons";
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { Controller } from "react-hook-form";
 import Btn from "@/shared/components/Btn";
 import useLogin from "@/shared/hooks/useLogin";
 import LoadScreen from "@/shared/components/LoadScreen";
+import { FontAwesome } from "@expo/vector-icons";
 
 const login = () => {
   const {
@@ -29,9 +30,9 @@ const login = () => {
     isLoading,
   } = useLogin();
 
-  const labelStyleForm = "text-lg text-start w-full font-bold";
+  const labelStyleForm = "text-lg text-start w-full font-bold text-black";
   const inputStyleForm =
-    "border border-gray-400 rounded-2xl p-3 w-full h-16 text-xl";
+    "border border-gray-400 rounded-2xl p-3 w-full h-16 text-xl text-black";
   const iconStyleForm = "absolute right-3 top-1/2 -translate-y-1/2";
   const errorStyle = "text-red-500 text-start w-full";
 
@@ -50,7 +51,7 @@ const login = () => {
             className={isWeb ? "" : "w-full h-full"}
           >
             <Text
-              className={isWeb ? "" : "text-2xl font-bold text-center mt-2 mb-5"}
+              className={isWeb ? "" : "text-2xl font-bold text-center !mt-4 mb-5"}
               style={isWeb ? styles.titleWeb : {}}
             >
               Parqueo rápido y seguro
@@ -58,10 +59,10 @@ const login = () => {
   
             {/* Icono de usuario */}
             <View
-              className="flex flex-row items-center justify-center h-36 w-full"
+              className="flex flex-row items-center justify-center h-40 w-full"
               style={isWeb ? styles.containerIconWeb : {}}
             >
-              <FontAwesome name="user" size={120} color="black" />
+              <FontAwesome5 name="user-circle" size={160} color="black" />
             </View>
   
             {/* Formulario */}
