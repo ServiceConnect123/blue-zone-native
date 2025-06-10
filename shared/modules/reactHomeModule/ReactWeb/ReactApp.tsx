@@ -11,6 +11,16 @@ export const ReactApp = () => {
   const user:string = "https://front-user-zonas-azules.netlify.app/";
   const admin:string = "https://front-admin-zonas-azules.netlify.app/";
 
+  const token = 'mi-token-super-secreto'; // Este es el token que ya tienes
+
+  // Enviar el token cuando la WebView haya cargado
+  const onWebViewLoad = () => {
+    webViewRef.current?.postMessage(
+      JSON.stringify({ type: 'SET_TOKEN', token })
+    );
+    console.log("onWebViewLoad", token);
+  };
+
   // Manejador de mensajes desde el WebView
   const handleWebViewMessage = (event: WebViewMessageEvent) => {
     try {
@@ -21,6 +31,10 @@ export const ReactApp = () => {
       if(messageData.type === "LOGOUT"){
         logout();
         replace("/(loginStack)/welcome");
+      }
+      if(messageData.type === "RECIVE_TOKEN"){
+        console.log("RECIVE_TOKEN", messageData.token);
+        Alert.alert("Token recibido", messageData.token);
       }
     } catch (error) {
       console.error("Error al procesar mensaje:", error);
@@ -40,6 +54,7 @@ export const ReactApp = () => {
         mixedContentMode="compatibility"
         startInLoadingState={true}
         onMessage={handleWebViewMessage}
+        onLoadEnd={onWebViewLoad}
       />
     </View>
   );

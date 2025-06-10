@@ -24,7 +24,7 @@ const welcome = () => {
     );
   } else {
     return (
-      <ViewContainer bottomProp={true}>
+      <ViewContainer bottomProp={true} topProp={true}>
         <ParallaxScrollView
           headerImage={
             <View className="w-full h-full">

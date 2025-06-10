@@ -16,6 +16,7 @@ interface LoginForm {
 const useLogin = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const isWeb = Platform.OS === "web";
 
   const {
@@ -69,30 +70,36 @@ const useLogin = () => {
     ToastAndroid.show("Credenciales no válidas", ToastAndroid.LONG);
   };
 
-  const login = async ()=>{
+  const login = async () => {
+    setIsLoading(true);
     const data = {
-      email:getValues().email,
-      password:getValues().password 
-    }
-    axios.post(`${API_URL}/auth/signin`,data,{
-      headers:{
-        "Content-Type": "application/json"
-      }
-    }).then((res:any)=>{
-      if(res){
-        AsyncStorage.setItem("user", JSON.stringify(res));
-        AsyncStorage.setItem("auth", "true");
-        handleSuccessfulLogin();
-      }
-    }).catch((err)=>{
-      console.log(err);
-      showToast("error", "Error al iniciar sesión", "", {
-        duration: 3000,
-        position: "top",
-        autoHide: true,
+      email: getValues().email,
+      password: getValues().password,
+    };
+    axios
+      .post(`${API_URL}/auth/signin`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res: any) => {
+        if (res) {
+          AsyncStorage.setItem("user", JSON.stringify(res));
+          AsyncStorage.setItem("auth", "true");
+          setIsLoading(false);
+          handleSuccessfulLogin();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+        showToast("error", "Error al iniciar sesión", "", {
+          duration: 3000,
+          position: "top",
+          autoHide: true,
+        });
       });
-    })
-  }
+  };
 
   const handleSuccessfulLogin = async () => {
     router.replace("/(tabs)");
@@ -133,6 +140,7 @@ const useLogin = () => {
     handleSubmit,
     stylesTailwind,
     isWeb,
+    isLoading,
   };
 };
 
