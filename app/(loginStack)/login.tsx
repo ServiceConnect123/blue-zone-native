@@ -29,9 +29,9 @@ const login = () => {
     isLoading,
   } = useLogin();
 
-  const labelStyleForm = "text-lg text-start w-full font-bold";
+  const labelStyleForm = "text-lg text-start w-full font-bold text-black";
   const inputStyleForm =
-    "border border-gray-400 rounded-2xl p-3 w-full h-16 text-xl";
+    "border border-gray-400 rounded-2xl p-3 w-full h-16 text-xl text-black";
   const iconStyleForm = "absolute right-3 top-1/2 -translate-y-1/2";
   const errorStyle = "text-red-500 text-start w-full";
 
@@ -169,7 +169,7 @@ const login = () => {
                     <Switch
                       value={value}
                       onValueChange={onChange}
-                      className="w-12 h-16 mr-5"
+                      className="w-12 h-16 mr-5 text-slate-700"
                     />
                     <Text
                       className={isWeb ? "" : "text-lg text-slate-700"}

@@ -45,7 +45,7 @@ export const ReactApp = () => {
     <View style={styles.container}>
       <WebView
         ref={webViewRef}
-        source={{ uri: admin }}
+        source={{ uri: user }}
         javaScriptEnabled={true}
         domStorageEnabled={true}
         style={styles.webview}
