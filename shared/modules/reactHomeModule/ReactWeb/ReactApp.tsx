@@ -1,4 +1,5 @@
 import { useAuth } from "@/shared/context/Auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { replace } from "expo-router/build/global-state/routing";
 import React, { useRef } from "react";
 import { Alert, StyleSheet } from "react-native";
@@ -11,7 +12,7 @@ export const ReactApp = () => {
   const user:string = "https://front-user-zonas-azules.netlify.app/";
   const admin:string = "https://front-admin-zonas-azules.netlify.app/";
 
-  const token = 'mi-token-super-secreto'; // Este es el token que ya tienes
+  const token = AsyncStorage.getItem("user"); // Este es el token que ya tienes
 
   // Enviar el token cuando la WebView haya cargado
   const onWebViewLoad = () => {

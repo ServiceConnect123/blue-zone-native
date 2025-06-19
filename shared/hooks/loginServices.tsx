@@ -36,7 +36,6 @@ export default function useLoginServices() {
   };
 
   const handleSuccessfulLogin = async (login: () => void, router: any) => {
-    console.log("Credenciales correctas");
     login();
     router.replace("/(tabs)");
 
