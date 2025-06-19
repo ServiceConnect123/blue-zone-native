@@ -12,7 +12,7 @@ export const ReactApp = () => {
   const user:string = "https://front-user-zonas-azules.netlify.app/";
   const admin:string = "https://front-admin-zonas-azules.netlify.app/";
 
-  const token = AsyncStorage.getItem("user"); // Este es el token que ya tienes
+  const token = AsyncStorage.getItem("user"); 
 
   // Enviar el token cuando la WebView haya cargado
   const onWebViewLoad = () => {

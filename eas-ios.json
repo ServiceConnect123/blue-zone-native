@@ -1,0 +1,11 @@
+{
+  "build": {
+    "preview2": {
+      "ios": {
+        "buildConfiguration": "Debug",
+        "distribution": "internal",
+        "developmentClient": true
+      }
+    }
+  }
+}
