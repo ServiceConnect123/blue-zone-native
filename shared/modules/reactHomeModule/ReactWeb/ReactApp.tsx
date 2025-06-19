@@ -55,6 +55,7 @@ export const ReactApp = () => {
         startInLoadingState={true}
         onMessage={handleWebViewMessage}
         onLoadEnd={onWebViewLoad}
+        userAgent="Zonas-Azules"
       />
     </View>
   );
