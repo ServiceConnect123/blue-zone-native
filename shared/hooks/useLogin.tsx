@@ -43,32 +43,6 @@ const useLogin = () => {
     console.log("Datos del formulario:", values);
   };
 
-  const retrieveUserFromStorage = async (): Promise<any | null> => {
-    try {
-      const userJson = await AsyncStorage.getItem("user");
-      return userJson ? JSON.parse(userJson) : null;
-    } catch (error) {
-      console.error("Error al recuperar usuario:", error);
-      return null;
-    }
-  };
-
-  const handleNoUserRegistered = () => {
-    console.log("No hay usuario registrado");
-    ToastAndroid.show("No se encontro usuario", ToastAndroid.LONG);
-  };
-
-  const areCredentialsValid = (user: any, formValues: LoginForm): boolean => {
-    return (
-      user.email === formValues.email && user.password === formValues.password
-    );
-  };
-
-  const handleInvalidCredentials = () => {
-    console.log("Credenciales incorrectas");
-    ToastAndroid.show("Credenciales no válidas", ToastAndroid.LONG);
-  };
-
   const login = async () => {
     const API_URL = process.env.EXPO_PUBLIC_API_URL;
     setIsLoading(true);
