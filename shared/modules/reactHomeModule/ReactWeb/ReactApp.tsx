@@ -1,4 +1,5 @@
 import { useAuth } from "@/shared/context/Auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { replace } from "expo-router/build/global-state/routing";
 import React, { useRef } from "react";
 import { Alert, StyleSheet } from "react-native";
@@ -7,37 +8,34 @@ import { WebView, WebViewMessageEvent } from "react-native-webview";
 
 export const ReactApp = () => {
   const webViewRef = useRef<WebView>(null);
-  const {logout} = useAuth();
+  const { logout } = useAuth();
+  const user: string = "https://front-user-zonas-azules.netlify.app/";
+  const admin: string = "https://front-admin-zonas-azules.netlify.app/";
+
+  
+  // Enviar el token cuando la WebView haya cargado
+  const onWebViewLoad = () => {
+    const token = AsyncStorage.getItem("user") || "";
+    webViewRef.current?.postMessage(
+      JSON.stringify({ type: "SET_TOKEN", token: token })
+    );
+    console.log("onWebViewLoad", token);
+  };
 
   // Manejador de mensajes desde el WebView
   const handleWebViewMessage = (event: WebViewMessageEvent) => {
     try {
       const messageData = JSON.parse(event.nativeEvent.data);
       console.log("handleWebViewMessage", messageData);
-      // Verificar el tipo de mensaje
-      if (messageData.type === "REACT_WEBVIEW_MESSAGE") {
-        const currentContent = messageData.content;
 
-        // Mostrar alerta con el conteo
-        Alert.alert(
-          "Mensaje desde WebView",
-          `El mensaje es: ${currentContent}`,
-          [{ text: "OK" }]
-        );
-
-        // Opcional: Enviar respuesta al WebView
-        webViewRef.current?.postMessage(
-          JSON.stringify({
-            type: "ACKNOWLEDGE",
-            message: `Recibido mensaje: ${currentContent}`,
-          })
-        );
-      }
-      
       //Manejo de logout
-      if(messageData.type === "LOGOUT"){
+      if (messageData.type === "LOGOUT") {
         logout();
         replace("/(loginStack)/welcome");
+      }
+      if (messageData.type === "RECIVE_TOKEN") {
+        console.log("RECIVE_TOKEN", messageData.token);
+        Alert.alert("Token recibido", messageData.token);
       }
     } catch (error) {
       console.error("Error al procesar mensaje:", error);
@@ -48,7 +46,7 @@ export const ReactApp = () => {
     <View style={styles.container}>
       <WebView
         ref={webViewRef}
-        source={{ uri: "https://reactnativewebviewtest.netlify.app/" }}
+        source={{ uri: admin }}
         javaScriptEnabled={true}
         domStorageEnabled={true}
         style={styles.webview}
@@ -57,6 +55,8 @@ export const ReactApp = () => {
         mixedContentMode="compatibility"
         startInLoadingState={true}
         onMessage={handleWebViewMessage}
+        onLoadEnd={onWebViewLoad}
+        userAgent="Zonas-Azules"
       />
     </View>
   );

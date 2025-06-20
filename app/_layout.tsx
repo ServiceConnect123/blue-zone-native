@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import "../global.css"
 import { AuthProvider, useAuth } from '@/shared/context/Auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export {
   ErrorBoundary,
@@ -47,6 +48,10 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const {isAuthenticated} = useAuth();
+  useEffect(() => {
+    AsyncStorage.setItem("auth", "false");
+    AsyncStorage.setItem("user", "null");
+  }, []);
   return (
     <ThemeProvider value={DefaultTheme}>
       <Stack>
