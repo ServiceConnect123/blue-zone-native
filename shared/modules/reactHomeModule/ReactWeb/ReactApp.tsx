@@ -13,27 +13,24 @@ export const ReactApp = () => {
 
   // Enviar el token cuando la WebView haya cargado
   const token = AsyncStorage.getItem("user") || ""; 
-  console.log("token", token);
   const onWebViewLoad = () => {
     webViewRef.current?.postMessage(
       JSON.stringify({ type: 'SET_TOKEN', token })
     );
-    console.log("onWebViewLoad", token);
   };
 
   // Manejador de mensajes desde el WebView
   const handleWebViewMessage = (event: WebViewMessageEvent) => {
     try {
       const messageData = JSON.parse(event.nativeEvent.data);
-      console.log("handleWebViewMessage", messageData);
-      
+      //console.log("handleWebViewMessage", messageData);
       //Manejo de logout
       if(messageData.type === "LOGOUT"){
         logout();
         replace("/(loginStack)/welcome");
       }
       if(messageData.type === "RECIVE_TOKEN"){
-        console.log("RECIVE_TOKEN", messageData.token);
+        //console.log("RECIVE_TOKEN", messageData.token);
         Alert.alert("Token recibido", messageData.token);
       }
     } catch (error) {
