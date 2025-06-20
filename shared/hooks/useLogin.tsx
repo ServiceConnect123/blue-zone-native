@@ -2,10 +2,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ToastAndroid, Platform } from "react-native";
+import { Platform } from "react-native";
 import axios from "axios";
 import { showToast } from "../components/CustomToast";
-import { API_URL } from "@env";
 
 interface LoginForm {
   email: string;
@@ -44,33 +43,8 @@ const useLogin = () => {
     console.log("Datos del formulario:", values);
   };
 
-  const retrieveUserFromStorage = async (): Promise<any | null> => {
-    try {
-      const userJson = await AsyncStorage.getItem("user");
-      return userJson ? JSON.parse(userJson) : null;
-    } catch (error) {
-      console.error("Error al recuperar usuario:", error);
-      return null;
-    }
-  };
-
-  const handleNoUserRegistered = () => {
-    console.log("No hay usuario registrado");
-    ToastAndroid.show("No se encontro usuario", ToastAndroid.LONG);
-  };
-
-  const areCredentialsValid = (user: any, formValues: LoginForm): boolean => {
-    return (
-      user.email === formValues.email && user.password === formValues.password
-    );
-  };
-
-  const handleInvalidCredentials = () => {
-    console.log("Credenciales incorrectas");
-    ToastAndroid.show("Credenciales no válidas", ToastAndroid.LONG);
-  };
-
   const login = async () => {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
     setIsLoading(true);
     const data = {
       email: getValues().email,
@@ -84,7 +58,12 @@ const useLogin = () => {
       })
       .then((res: any) => {
         if (res) {
-          AsyncStorage.setItem("user", JSON.stringify(res));
+          const object = {
+            accessToken: res.data.accessToken,
+            idToken: res.data.idToken,
+            refreshToken: res.data.refreshToken,
+          }
+          AsyncStorage.setItem("user", JSON.stringify(object));
           AsyncStorage.setItem("auth", "true");
           setIsLoading(false);
           handleSuccessfulLogin();
