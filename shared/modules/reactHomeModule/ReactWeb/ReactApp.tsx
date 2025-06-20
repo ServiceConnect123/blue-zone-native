@@ -11,28 +11,21 @@ export const ReactApp = () => {
   const { logout } = useAuth();
   const admin: string = "https://front-admin-zonas-azules.netlify.app/";
 
-  // Enviar el token cuando la WebView haya cargado
   const token = AsyncStorage.getItem("user");
   const onWebViewLoad = () => {
     webViewRef.current?.postMessage(
       JSON.stringify({ type: "SET_TOKEN", token })
     );
-    //console.log("onWebViewLoad", token);
   };
 
-  // Manejador de mensajes desde el WebView
   const handleWebViewMessage = (event: WebViewMessageEvent) => {
     try {
       const messageData = JSON.parse(event.nativeEvent.data);
-      //console.log("handleWebViewMessage", messageData);
-
-      //Manejo de logout
       if (messageData.type === "LOGOUT") {
         logout();
         replace("/(loginStack)/login");
       }
       if (messageData.type === "RECIVE_TOKEN") {
-        //console.log("RECIVE_TOKEN", messageData.token);
         Alert.alert("Token recibido", messageData.token);
       }
     } catch (error) {
