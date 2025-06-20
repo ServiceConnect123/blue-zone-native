@@ -5,7 +5,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ToastAndroid, Platform } from "react-native";
 import axios from "axios";
 import { showToast } from "../components/CustomToast";
-import { API_URL } from "@env";
 
 interface LoginForm {
   email: string;
@@ -71,6 +70,7 @@ const useLogin = () => {
   };
 
   const login = async () => {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
     setIsLoading(true);
     const data = {
       email: getValues().email,

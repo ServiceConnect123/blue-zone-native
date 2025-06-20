@@ -3,7 +3,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import 'react-native-reanimated';
 import "../global.css"
 import { AuthProvider, useAuth } from '@/shared/context/Auth';
@@ -48,13 +48,10 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const {isAuthenticated} = useAuth();
-  useEffect(() => {
-    AsyncStorage.setItem("auth", "false");
-    AsyncStorage.setItem("user", "null");
-  }, []);
   return (
     <ThemeProvider value={DefaultTheme}>
       <Stack>
+      <Stack.Screen name="index" options={{ headerShown: false }} />
       {!isAuthenticated ? (
           <Stack.Screen name="(loginStack)" options={{ headerShown: false }} />
         ) : (
