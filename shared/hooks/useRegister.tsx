@@ -3,7 +3,6 @@ import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useRouter } from "expo-router";
 import axios from "axios";
-import { API_URL } from "@env";
 import { showToast } from "../components/CustomToast";
 
 export interface Country {
@@ -81,6 +80,7 @@ const useRegister = (countrysNumber: Country[]) => {
   };
 
   const registerUser = async () => {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
     setLoading(true);
     console.log("API URL:", API_URL);
     const phoneNumber = selectedCountry.phoneCode + getValues().phoneNumber.replace(/\s+/g, "");

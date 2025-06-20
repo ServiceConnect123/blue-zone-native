@@ -10,11 +10,9 @@ export const ReactApp = () => {
   const webViewRef = useRef<WebView>(null);
   const {logout} = useAuth();
   const user:string = "https://front-user-zonas-azules.netlify.app/";
-  const admin:string = "https://front-admin-zonas-azules.netlify.app/";
-
-  const token = AsyncStorage.getItem("user"); 
 
   // Enviar el token cuando la WebView haya cargado
+  const token = AsyncStorage.getItem("user") || ""; 
   const onWebViewLoad = () => {
     webViewRef.current?.postMessage(
       JSON.stringify({ type: 'SET_TOKEN', token })
