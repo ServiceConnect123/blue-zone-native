@@ -58,7 +58,12 @@ const useLogin = () => {
       })
       .then((res: any) => {
         if (res) {
-          AsyncStorage.setItem("user", JSON.stringify(res));
+          const object = {
+            accessToken: res.data.accessToken,
+            idToken: res.data.idToken,
+            refreshToken: res.data.refreshToken,
+          }
+          AsyncStorage.setItem("user", JSON.stringify(object));
           AsyncStorage.setItem("auth", "true");
           setIsLoading(false);
           handleSuccessfulLogin();

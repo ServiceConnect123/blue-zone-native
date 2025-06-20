@@ -13,6 +13,7 @@ export const ReactApp = () => {
 
   // Enviar el token cuando la WebView haya cargado
   const token = AsyncStorage.getItem("user") || ""; 
+  console.log("token", token);
   const onWebViewLoad = () => {
     webViewRef.current?.postMessage(
       JSON.stringify({ type: 'SET_TOKEN', token })
