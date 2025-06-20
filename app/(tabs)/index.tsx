@@ -14,7 +14,7 @@ export default function TabOneScreen() {
   const handleLogout = () => {
     logout();
     console.log("isAuthenticated", isAuthenticated);
-    router.replace("/(loginStack)/welcome");
+    router.replace("/(loginStack)/login");
   };
 
   return (

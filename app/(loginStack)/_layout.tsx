@@ -6,7 +6,7 @@ const LoginStackLayout = () => {
     <Stack screenOptions={{
       animation: 'fade_from_bottom',
     }}>
-      <Stack.Screen name="login" options={{ headerShown: false }} />
+      <Stack.Screen name="index" options={{ headerShown: false }} />
     </Stack>
   )
 }

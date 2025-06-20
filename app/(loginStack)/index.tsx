@@ -4,14 +4,12 @@ import {
   ScrollView,
   TextInput,
   Switch,
-  Platform,
   StyleSheet,
-  ToastAndroid,
 } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import ViewContainer from "@/shared/components/ViewContainer";
 import Header from "@/shared/components/Header";
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { Controller } from "react-hook-form";
 import Btn from "@/shared/components/Btn";
 import useLogin from "@/shared/hooks/useLogin";
@@ -36,9 +34,9 @@ const login = () => {
   const iconStyleForm = "absolute right-3 top-1/2 -translate-y-1/2";
   const errorStyle = "text-red-500 text-start w-full";
 
-  if(isLoading){
-    return <LoadScreen />
-  }else{
+  if (isLoading) {
+    return <LoadScreen />;
+  } else {
     return (
       <ViewContainer bottomProp={true} topProp={true}>
         <Header text="Iniciar sesión" />
@@ -51,12 +49,14 @@ const login = () => {
             className={isWeb ? "" : "w-full h-full"}
           >
             <Text
-              className={isWeb ? "" : "text-2xl font-bold text-center !mt-4 mb-5"}
+              className={
+                isWeb ? "" : "text-2xl font-bold text-center !mt-4 mb-5"
+              }
               style={isWeb ? styles.titleWeb : {}}
             >
               Parqueo rápido y seguro
             </Text>
-  
+
             {/* Icono de usuario */}
             <View
               className="flex flex-row items-center justify-center h-40 w-full"
@@ -64,7 +64,7 @@ const login = () => {
             >
               <FontAwesome5 name="user-circle" size={160} color="black" />
             </View>
-  
+
             {/* Formulario */}
             <View
               className={isWeb ? "" : "flex h-full w-full pb-24 p-3"}
@@ -105,7 +105,7 @@ const login = () => {
                 )}
                 name="email"
               />
-  
+
               {/* Contraseña */}
               <Controller
                 control={control}
@@ -113,7 +113,9 @@ const login = () => {
                 render={({ field: { onChange, onBlur, value } }) => (
                   <View
                     className={
-                      isWeb ? "" : "w-full h-16 flex items-center justify-center"
+                      isWeb
+                        ? ""
+                        : "w-full h-16 flex items-center justify-center"
                     }
                     style={isWeb ? styles.containerInputWeb : {}}
                   >
@@ -154,7 +156,7 @@ const login = () => {
                 )}
                 name="password"
               />
-  
+
               {/* Recordar contraseña */}
               <Controller
                 control={control}
@@ -208,7 +210,6 @@ const login = () => {
       </ViewContainer>
     );
   }
-
 };
 
 export default login;

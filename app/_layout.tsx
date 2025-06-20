@@ -16,7 +16,7 @@ import Toast from "react-native-toast-message";
 export { ErrorBoundary } from "expo-router";
 
 export const unstable_settings = {
-  initialRouteName: "(loginStack)",
+  initialRouteName: "(loginStack)/index",
 };
 
 SplashScreen.preventAutoHideAsync();
@@ -47,7 +47,6 @@ export default function RootLayout() {
         <StatusBar barStyle="default" />
         <RootLayoutNav />
       </AuthProvider>
-      {/* Estos componentes deben estar al final pero dentro del componente raíz */}
       <CustomToast />
       <Toast />
     </>
