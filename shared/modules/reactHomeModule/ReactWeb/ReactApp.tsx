@@ -23,7 +23,7 @@ export const ReactApp = () => {
       const messageData = JSON.parse(event.nativeEvent.data);
       if (messageData.type === "LOGOUT") {
         logout();
-        replace("/(loginStack)/login");
+        replace("/(loginStack)");
       }
       if (messageData.type === "RECIVE_TOKEN") {
         Alert.alert("Token recibido", messageData.token);
