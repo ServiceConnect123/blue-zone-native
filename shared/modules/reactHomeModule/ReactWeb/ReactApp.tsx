@@ -9,7 +9,7 @@ import { WebView, WebViewMessageEvent } from "react-native-webview";
 export const ReactApp = () => {
   const webViewRef = useRef<WebView>(null);
   const {logout} = useAuth();
-  const user:string = "https://front-user-zonas-azules.netlify.app/";
+  const user:string = "https://front-user-cudu.onrender.com";
 
   // Enviar el token cuando la WebView haya cargado
   const token = AsyncStorage.getItem("user") || ""; 
