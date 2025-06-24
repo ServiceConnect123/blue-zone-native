@@ -12,6 +12,7 @@ import useLocationPermission from "@/shared/hooks/useLocation";
 import LoadScreen from "@/shared/components/LoadScreen";
 import CustomToast from "@/shared/components/CustomToast";
 import Toast from "react-native-toast-message";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -56,7 +57,8 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const { isAuthenticated } = useAuth();
   const { permissionGranted, isLoading } = useLocationPermission();
-
+  //AsyncStorage.removeItem("user");
+  //AsyncStorage.setItem("auth", "false");
   if (isLoading) {
     return <LoadScreen />;
   }

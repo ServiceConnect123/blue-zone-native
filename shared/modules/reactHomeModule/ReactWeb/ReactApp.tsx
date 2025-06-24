@@ -9,7 +9,7 @@ import { WebView, WebViewMessageEvent } from "react-native-webview";
 export const ReactApp = () => {
   const webViewRef = useRef<WebView>(null);
   const { logout } = useAuth();
-  const admin: string = "https://front-admin-zonas-azules.netlify.app/";
+  const admin: string = "https://admin-zonas-azules.onrender.com";
 
   const token = AsyncStorage.getItem("user");
   const onWebViewLoad = () => {
