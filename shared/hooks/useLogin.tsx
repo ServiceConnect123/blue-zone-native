@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ToastAndroid, Platform } from "react-native";
+import { Platform } from "react-native";
 import axios from "axios";
 import { showToast } from "../components/CustomToast";
 
@@ -44,7 +44,7 @@ const useLogin = () => {
   };
 
   const login = async () => {
-    const API_URL = process.env.EXPO_PUBLIC_API_URL;
+    const API_URL = process.env.EXPO_PUBLIC_API_URL || "https://bluezones-app-latest.onrender.com";
     setIsLoading(true);
     const data = {
       email: getValues().email,
