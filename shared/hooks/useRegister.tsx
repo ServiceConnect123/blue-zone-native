@@ -80,7 +80,7 @@ const useRegister = (countrysNumber: Country[]) => {
   };
 
   const registerUser = async () => {
-    const API_URL = process.env.EXPO_PUBLIC_API_URL;
+    const API_URL = "https://bluezones-app-latest.onrender.com";
     setLoading(true);
     console.log("API URL:", API_URL);
     const phoneNumber = selectedCountry.phoneCode + getValues().phoneNumber.replace(/\s+/g, "");

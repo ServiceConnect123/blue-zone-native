@@ -27,7 +27,7 @@ export const ReactApp = () => {
       //Manejo de logout
       if(messageData.type === "LOGOUT"){
         logout();
-        replace("/(loginStack)/welcome");
+        replace("/(loginStack)");
       }
       if(messageData.type === "RECIVE_TOKEN"){
         //console.log("RECIVE_TOKEN", messageData.token);

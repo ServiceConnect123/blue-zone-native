@@ -44,7 +44,7 @@ const useLogin = () => {
   };
 
   const login = async () => {
-    const API_URL = process.env.EXPO_PUBLIC_API_URL || "https://bluezones-app-latest.onrender.com";
+    const API_URL = "https://bluezones-app-latest.onrender.com";
     setIsLoading(true);
     const data = {
       email: getValues().email,
